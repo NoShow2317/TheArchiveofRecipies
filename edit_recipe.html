@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Recipe</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <nav class="navbar px-4 py-3">
+    <span class="navbar-brand h1 mb-0 fw-bold">Edit recipe</span>
+  </nav>
+
+  <div class="container mt-5 flex-grow-1" style="max-width: 700px;">
+    <div class="card p-4 shadow-sm">
+      <div class="row g-3">
+        <div class="col-12">
+          <input type="text" id="f-name" class="form-control border-dark">
+        </div>
+        <div class="col-6">
+          <select id="f-cat" class="form-select border-dark">
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Dessert">Dessert</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <input type="text" id="f-time" class="form-control border-dark">
+        </div>
+
+        <div class="col-12">
+          <label class="fw-bold small mb-1">Change image</label>
+          <input type="file" id="f-image" class="form-control border-dark mb-2" accept="image/*">
+          <div class="form-check">
+            <input type="checkbox" id="f-fav" class="form-check-input border-dark">
+            <label class="form-check-label fw-bold small">Mark as favorite</label>
+          </div>
+        </div>
+        
+        <div class="col-12 mt-4">
+          <p class="fw-bold border-bottom border-dark pb-1">INGREDIENTS</p>
+          <div id="ing-area"></div>
+          <button class="btn btn-sm btn-custom-outline w-100 mb-3" onclick="addField('ing')">+ Add Ingredient</button>
+        </div>
+
+        <div class="col-12">
+          <p class="fw-bold border-bottom border-dark pb-1">INSTRUCTIONS</p>
+          <div id="ins-area"></div>
+          <button class="btn btn-sm btn-custom-outline w-100" onclick="addField('ins')">+ Add Instruction</button>
+        </div>
+      </div>
+
+      <div class="button-box-main mt-5 mb-0">
+        <button class="btn btn-custom-action w-50" onclick="processRecipe(true)">Update recipe</button>
+        <a href="./index.html" class="btn btn-custom-outline w-50">Cancel</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./app.js"></script>
+  <script>
+    $(document).ready(() => {
+      const r = findCurrent();
+      if(r) {
+        $("#f-name").val(r.name);
+        $("#f-cat").val(r.category);
+        $("#f-time").val(r.cook_time);
+        $("#f-fav").prop("checked", r.favorite === "true");
+        
+        // Rebuild dynamic list for Edit
+        NewRecipeIngredientsCount = 0;
+        r.ingredients.forEach((val) => {
+          NewRecipeIngredientsCount++;
+          $("#ing-area").append(`<input type="text" class="form-control mb-2 border-dark" id="add-recipe-form-ingredient${NewRecipeIngredientsCount}" value="${val}">`);
+        });
+
+        NewRecipeInstructionsCount = 0;
+        r.instructions.forEach((val) => {
+          NewRecipeInstructionsCount++;
+          $("#ins-area").append(`<input type="text" class="form-control mb-2 border-dark" id="add-recipe-form-instruction${NewRecipeInstructionsCount}" value="${val}">`);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

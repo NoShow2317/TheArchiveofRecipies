@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <nav class="navbar px-4 py-3">
+    <a href="./index.html" class="btn btn-sm btn-custom-outline">← Back</a>
+    <span class="navbar-brand h1 mb-0 fw-bold mx-auto">Recipe details</span>
+    <a href="./edit_recipe.html" class="btn btn-sm btn-custom-action">Edit recipe</a>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="card shadow-sm mb-4">
+          <div class="recipe-title-bar h2 mb-0" id="det-name"></div>
+          <div id="det-img-container"></div>
+          
+          <div class="card-body">
+            <div class="row text-center mb-4">
+              <div class="col-6 border-end">
+                <p class="text-muted small mb-0">Category</p>
+                <h5 id="det-cat" class="fw-bold"></h5>
+              </div>
+              <div class="col-6">
+                <p class="text-muted small mb-0">Cook time</p>
+                <h5 id="det-time" class="fw-bold"></h5>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-5 border-end">
+                <h5 class="fw-bold border-bottom border-dark pb-2">INGREDIENTS</h5>
+                <ul id="det-ing" class="list-group list-group-flush"></ul>
+              </div>
+              <div class="col-md-7">
+                <h5 class="fw-bold border-bottom border-dark pb-2">INSTRUCTIONS</h5>
+                <ol id="det-ins" class="ps-3"></ol>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="button-box-main">
+          <a href="./index.html" class="btn btn-custom-outline">Back to archive</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./app.js"></script>
+  <script>
+    $(document).ready(() => {
+      const r = findCurrent();
+      if(r) {
+        $("#det-name").text(r.name + (r.favorite === "true" ? " <3" : ""));
+        $("#det-cat").text(r.category);
+        $("#det-time").text(r.cook_time + " min");
+        r.ingredients.forEach(i => $("#det-ing").append(`<li class="list-group-item" style="background:transparent; border:none; padding-left:0;">• ${i}</li>`));
+        r.instructions.forEach(i => $("#det-ins").append(`<li class="mb-2">${i}</li>`));
+      }
+    });
+  </script>
+</body>
+</html>
